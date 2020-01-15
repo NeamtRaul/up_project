@@ -1,0 +1,136 @@
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Send_Email_GUI {
+
+	private JFrame frame;
+	private JTextField TO_textfield;
+	private JTextField Subject_Textfield;
+	private JTextField Message_Textfield;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Send_Email_GUI window = new Send_Email_GUI();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Send_Email_GUI() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 458, 378);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblTo = new JLabel("To:");
+		lblTo.setBounds(62, 43, 46, 13);
+		frame.getContentPane().add(lblTo);
+		
+		JLabel lblSubject = new JLabel("Subject:");
+		lblSubject.setBounds(62, 80, 46, 13);
+		frame.getContentPane().add(lblSubject);
+		
+		JLabel lblMessage = new JLabel("Message:");
+		lblMessage.setBounds(62, 117, 46, 13);
+		frame.getContentPane().add(lblMessage);
+		
+		TO_textfield = new JTextField();
+		TO_textfield.setBounds(118, 40, 184, 19);
+		frame.getContentPane().add(TO_textfield);
+		TO_textfield.setColumns(10);
+		
+		Subject_Textfield = new JTextField();
+		Subject_Textfield.setBounds(118, 77, 184, 19);
+		frame.getContentPane().add(Subject_Textfield);
+		Subject_Textfield.setColumns(10);
+		
+		Message_Textfield = new JTextField();
+		Message_Textfield.setBounds(118, 114, 184, 130);
+		frame.getContentPane().add(Message_Textfield);
+		Message_Textfield.setColumns(10);
+		
+		JLabel lblSendEmailInterface = new JLabel("Send Email Interface");
+		lblSendEmailInterface.setBounds(171, 10, 102, 13);
+		frame.getContentPane().add(lblSendEmailInterface);
+		
+		JLabel lblNeamtRaul = new JLabel("Neamt Raul, 2031");
+		lblNeamtRaul.setBounds(328, 318, 106, 13);
+		frame.getContentPane().add(lblNeamtRaul);
+		
+		JButton btnSend = new JButton("SEND");
+		btnSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				final String username = "sendsmswithjava@gmail.com";
+		        final String password = "upproject1";
+
+		        Properties prop = new Properties();
+				prop.put("mail.smtp.host", "smtp.gmail.com");
+		        prop.put("mail.smtp.port", "587");
+		        prop.put("mail.smtp.auth", "true");
+		        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+		        
+		        Session session = Session.getInstance(prop,
+		                new javax.mail.Authenticator() {
+		                    protected PasswordAuthentication getPasswordAuthentication() {
+		                        return new PasswordAuthentication(username, password);
+		                    }
+		                });
+
+		        try {
+
+		            Message message = new MimeMessage(session);
+		            message.setFrom(new InternetAddress("sendsmswithjava@gmail.com"));
+		            message.setRecipients(
+		                    Message.RecipientType.TO,
+		                    InternetAddress.parse(TO_textfield.getText())
+		            );
+		            message.setSubject(Subject_Textfield.getText());
+		            message.setText(Message_Textfield.getText());
+
+		            Transport.send(message);
+
+		            System.out.println("Your e-mail was successfully sent!");
+
+		        } catch (MessagingException e) {
+		            e.printStackTrace();
+		        }
+			}
+		});
+		btnSend.setBounds(218, 264, 85, 21);
+		frame.getContentPane().add(btnSend);
+		
+		
+	}
+}

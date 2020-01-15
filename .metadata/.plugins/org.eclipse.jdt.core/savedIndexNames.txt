@@ -1,0 +1,5 @@
+INDEX VERSION 1.131+D:\Facultate\Anul 3\Microprocesoare\Neamt Raul group 2031 - Send e-mail java interface\.metadata\.plugins\org.eclipse.jdt.core
+4187066728.index
+2288295468.index
+3461844776.index
+2439081366.index
